@@ -3,7 +3,7 @@
 The 24metrics Bot is an automated agent operated by [24metrics](https://24metrics.com), an
 ad-tracking and traffic-quality platform. It fetches individual web pages on behalf of
 24metrics customers, so that those customers can be told whether their own advertising
-links work correctly and where their traffic actually comes from.
+links work correctly, and what kind of pages their traffic is arriving from.
 
 This repository is **documentation only**. It contains no source code. It exists so that
 site operators — and Cloudflare's verified-bot programme — can find out what our bot is,
@@ -13,27 +13,28 @@ how to recognise it, and how to reach us.
 
 The bot exists to serve two features of the 24metrics platform:
 
-**Affiliate link checking.** 24metrics customers register their own advertising and
-affiliate tracking links with us. The bot follows those links end to end and reports back
-whether each one resolves to the destination the customer expects. This is how customers
-find out that a link is broken, has been hijacked into an unexpected redirect chain, or is
-serving different content than it is supposed to.
+**Link checking.** 24metrics customers register their own advertising and affiliate
+tracking links with us. The bot follows those links end to end and reports back whether
+each one resolves to the destination the customer expects. This is how customers find out
+that a link is broken, has been hijacked into an unexpected redirect chain, or is serving
+different content than it is supposed to.
 
-**Click referrer tagging.** When traffic arrives at a customer's tracking link, the bot may
-fetch the referring page in order to classify the traffic source. This lets customers
-distinguish legitimate placements from misrepresented or fraudulent ones.
+**Referrer categorisation.** Customers send us the referrer URLs recorded against their
+traffic. The bot visits those pages so that we can categorise them by their content, and
+return that categorisation to the customer who supplied the URL.
 
-Both of these are checks a customer has asked us to perform on their behalf, against links
-and referrers that already exist in their own account.
+In both cases the bot is acting on a URL that a customer has handed us, in order to answer
+a question that customer asked about that URL.
 
 ## What the bot does not do
 
-- It does **not** crawl the open web. It has no crawl frontier and does not discover pages
-  by following links for the purpose of indexing.
-- It does **not** collect content for search indexing, for resale, or for training machine
-  learning models.
-- It does **not** attempt to bypass paywalls, log in, submit forms, or access anything that
-  an ordinary anonymous visitor could not reach.
+- It does **not** crawl the open web. It follows redirect chains in order to resolve a
+  submitted link, but it does not extract links out of page content and queue them for
+  further fetching. There is no crawl frontier.
+- It does **not** index or republish your content. What it retrieves is used to produce the
+  link-check or categorisation result for the customer who submitted that URL.
+- It does **not** attempt to bypass paywalls, log in, submit forms, or reach anything an
+  ordinary anonymous visitor could not.
 
 ### robots.txt
 
@@ -116,8 +117,9 @@ this string. Use the signature if you need certainty.
 
 ## Blocking the bot
 
-We would prefer that you allow the bot, because the checks it performs are what tell an
-advertiser their traffic to your site is genuine. But it is your site.
+We would prefer that you allow it, since every fetch is made on behalf of a customer who
+has asked us a question about a link or a referrer pointing at your site. But it is your
+site.
 
 To block it, deny requests carrying the User-Agent above, or the Web Bot Auth key ID if
 your edge supports matching on it. If you are on Cloudflare, the bot appears as a verified
