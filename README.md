@@ -11,17 +11,17 @@ how to recognise it, and how to reach us.
 
 ## What the bot fetches, and why
 
-The bot exists to serve two features of the 24metrics platform:
+The bot fetches pages for two reasons, both of them on behalf of a customer:
 
-**Link checking.** 24metrics customers register their own advertising and affiliate
-tracking links with us. The bot follows those links end to end and reports back whether
-each one resolves to the destination the customer expects. This is how customers find out
-that a link is broken, has been hijacked into an unexpected redirect chain, or is serving
-different content than it is supposed to.
+**Verifying a customer's own advertising links.** 24metrics customers register their
+advertising and affiliate tracking links with us. The bot follows those links end to end
+and reports back whether each one resolves to the destination the customer expects. This is
+how a customer finds out that one of their links is broken, has been diverted into an
+unexpected redirect chain, or is serving something other than what it should.
 
-**Referrer categorisation.** Customers send us the referrer URLs recorded against their
-traffic. The bot visits those pages so that we can categorise them by their content, and
-return that categorisation to the customer who supplied the URL.
+**Describing the pages a customer's traffic arrives from.** Customers send us the referrer
+URLs recorded against their traffic. The bot visits those pages so that we can tell the
+customer what kind of content is on them.
 
 In both cases the bot is acting on a URL that a customer has handed us, in order to answer
 a question that customer asked about that URL.
@@ -31,24 +31,18 @@ a question that customer asked about that URL.
 - It does **not** crawl the open web. It follows redirect chains in order to resolve a
   submitted link, but it does not extract links out of page content and queue them for
   further fetching. There is no crawl frontier.
-- It does **not** index or republish your content. What it retrieves is used to produce the
-  link-check or categorisation result for the customer who submitted that URL.
+- It does **not** index or republish your content. What it retrieves is used to answer the
+  question the customer asked about the URL they submitted, and for nothing else.
 - It does **not** attempt to bypass paywalls, log in, submit forms, or reach anything an
   ordinary anonymous visitor could not.
 
-### robots.txt
+Every request the bot makes is to a specific URL a 24metrics customer submitted to us, in
+order to answer a question that customer asked about that URL. A request is closer in kind
+to a single visitor clicking a link than to a crawler enumerating a site, and the volume
+per host reflects that.
 
-**The bot does not consult robots.txt.** We would rather state this plainly than claim a
-compliance we do not implement.
-
-The reason is that the bot is not a crawler. Every request it makes is to a specific URL
-that a 24metrics customer has submitted to us, in order to answer a question that customer
-asked about that specific URL. A request is closer in kind to a single user clicking the
-link than to a crawler enumerating a site, and the volume per host reflects that.
-
-If our traffic is nonetheless unwelcome on your site, please see
-[Blocking the bot](#blocking-the-bot) below — we will honour a block, and we would rather
-hear from you than have you discover us in your logs.
+If our traffic is unwelcome on your site, see [Blocking the bot](#blocking-the-bot) below.
+We would rather hear from you than have you discover us in your logs.
 
 ## Identifying the bot
 
@@ -136,4 +130,4 @@ report of someone impersonating our User-Agent, or a question about what a parti
 request was for — write to **dev@24metrics.com**.
 
 Please include the requested URL and an approximate timestamp; that is usually enough for
-us to trace a specific request back to the check that caused it.
+us to trace a specific request back to what prompted it.
